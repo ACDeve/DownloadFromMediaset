@@ -25,31 +25,26 @@ public class Downloader implements Runnable{
     public void run() {
         ReadableByteChannel readableByteChannel = null;
         try {
+
             readableByteChannel = Channels.newChannel(url.openStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        FileOutputStream fileOutputStream = null;
-        try {
+
+            FileOutputStream fileOutputStream = null;
+
             fileOutputStream = new FileOutputStream(fileName);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        FileChannel fileChannel = fileOutputStream.getChannel();
-        try {
+            FileChannel fileChannel = fileOutputStream.getChannel();
+
             fileOutputStream.getChannel()
                     .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        try {
             fileOutputStream.close();
+
+            System.out.println(fileName + " has completly downloaded!");
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println(fileName + " has completly downloaded!");
+
 
     }
 }
